@@ -585,6 +585,271 @@ class MineruParser(Parser):
         super().__init__()
 
     @staticmethod
+    async def _call_mineru_api(
+        input_path: Union[str, Path],
+        output_dir: Union[str, Path],
+        api_url: str,
+        api_key: Optional[str] = None,
+        method: str = "auto",
+        lang: Optional[str] = None,
+        **kwargs,
+    ) -> None:
+        """
+        Call MinerU cloud API service for document parsing (mineru.net)
+
+        Uses the batch processing API:
+        1. Request upload URL
+        2. Upload file via PUT
+        3. Poll for extraction results
+        4. Download and extract ZIP file
+
+        Args:
+            input_path: Path to input file
+            output_dir: Output directory path
+            api_url: MinerU API base URL (e.g., https://mineru.net/api/v4/extract/task)
+            api_key: API key for authentication (required for cloud service)
+            method: Parsing method (auto, txt, ocr)
+            lang: Document language for OCR optimization
+            **kwargs: Additional parameters (formula, table, etc.)
+        """
+        import aiohttp
+        import asyncio
+        from pathlib import Path as PathlibPath
+        import zipfile
+        import io
+
+        input_path = PathlibPath(input_path)
+        output_dir = PathlibPath(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        if not api_key:
+            raise ValueError("api_key is required for MinerU cloud API")
+
+        # Extract base URL if full endpoint is provided
+        if "/extract/task" in api_url:
+            base_url = api_url.rsplit("/extract/task", 1)[0]
+        else:
+            base_url = api_url
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                logging.info(f"Calling MinerU Cloud API for {input_path.name}")
+
+                # Step 1: Request upload URL
+                batch_url = f"{base_url}/file-urls/batch"
+
+                files_data = [{
+                    "name": input_path.name,
+                    "is_ocr": method == "ocr" or method == "auto",
+                    "data_id": input_path.stem,
+                    "language": lang or "ch",
+                }]
+
+                batch_request = {
+                    "enable_formula": kwargs.get("formula", True),
+                    "language": lang or "ch",
+                    "files": files_data
+                }
+
+                headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {api_key}"
+                }
+
+                logging.info(f"Step 1: Requesting upload URL...")
+                async with session.post(
+                    batch_url,
+                    headers=headers,
+                    json=batch_request,
+                    timeout=aiohttp.ClientTimeout(total=60)
+                ) as batch_response:
+                    if batch_response.status != 200:
+                        error_text = await batch_response.text()
+                        raise RuntimeError(
+                            f"Batch request failed with status {batch_response.status}: {error_text}"
+                        )
+
+                    batch_result = await batch_response.json()
+
+                    if batch_result.get("code") != 0:
+                        raise RuntimeError(f"API returned error: {batch_result.get('msg')}")
+
+                    batch_data = batch_result.get("data", {})
+                    batch_id = batch_data.get("batch_id")
+                    file_urls = batch_data.get("file_urls", [])
+
+                    if not batch_id or not file_urls:
+                        raise RuntimeError("No batch_id or file_urls in response")
+
+                    upload_url = file_urls[0]
+                    logging.info(f"Got batch ID: {batch_id}")
+
+                # Step 2: Upload file using PUT to OSS pre-signed URL
+                logging.info(f"Step 2: Uploading file ({input_path.stat().st_size:,} bytes)...")
+                
+                # Log upload URL details (mask sensitive params)
+                from urllib.parse import urlparse, parse_qs
+                parsed = urlparse(upload_url)
+                logging.info(f"Upload host: {parsed.netloc}")
+                logging.info(f"Upload path: {parsed.path}")
+                if parsed.query:
+                    query_params = parse_qs(parsed.query)
+                    # Log query params but mask sensitive values
+                    safe_params = {k: ('***' if k.lower() in ['signature', 'expires', 'accesskeyid'] else v) 
+                                   for k, v in query_params.items()}
+                    logging.info(f"Query params: {list(safe_params.keys())}")
+
+                file_content = input_path.read_bytes()
+                logging.info(f"File size: {len(file_content)} bytes")
+
+                # CRITICAL FIX: OSS pre-signed URLs with signature issues
+                # Try multiple upload strategies
+                import requests
+                from requests.adapters import HTTPAdapter
+                
+                def do_upload_strategy_1():
+                    """Strategy 1: Upload with Content-Type header"""
+                    headers = {'Content-Type': 'application/octet-stream'}
+                    response = requests.put(upload_url, data=file_content, headers=headers, timeout=300)
+                    return response.status_code, response.text, dict(response.headers)
+                
+                def do_upload_strategy_2():
+                    """Strategy 2: Upload without any custom headers"""
+                    # Create session with custom adapter to minimize default headers
+                    session = requests.Session()
+                    session.headers.clear()  # Clear all default headers
+                    response = session.put(upload_url, data=file_content, timeout=300)
+                    return response.status_code, response.text, dict(response.headers)
+                
+                def do_upload_strategy_3():
+                    """Strategy 3: Upload with explicit empty headers"""
+                    response = requests.put(upload_url, data=file_content, headers={}, timeout=300)
+                    return response.status_code, response.text, dict(response.headers)
+                
+                # Run upload in executor to avoid blocking
+                loop = asyncio.get_event_loop()
+                
+                # Try strategy 2 first (no custom headers)
+                logging.info(f"Attempting upload without custom headers...")
+                status_code, response_text, response_headers = await loop.run_in_executor(
+                    None, do_upload_strategy_2
+                )
+                
+                logging.info(f"Upload response status: {status_code}")
+                logging.info(f"Upload response headers: {response_headers}")
+                
+                if status_code not in [200, 201, 204]:
+                    logging.error(f"Upload failed with status {status_code}")
+                    logging.error(f"Response body: {response_text[:1000]}")
+                    
+                    if 'SignatureDoesNotMatch' in response_text:
+                        logging.error("OSS Signature Mismatch - This appears to be a MinerU API issue")
+                        logging.error("The pre-signed URL generated by MinerU may have incorrect signature")
+                        logging.error("Recommendation: Contact MinerU support or check API documentation")
+                    
+                    raise RuntimeError(
+                        f"Upload failed with status {status_code}: {response_text[:500]}"
+                    )
+
+                logging.info(f"File uploaded successfully")
+
+                # Step 3: Poll for batch results
+                logging.info(f"Step 3: Waiting for extraction completion...")
+                results_url = f"{base_url}/extract-results/batch/{batch_id}"
+                max_attempts = 120  # 10 minutes
+                attempt = 0
+
+                while attempt < max_attempts:
+                    await asyncio.sleep(5)
+                    attempt += 1
+
+                    async with session.get(
+                        results_url,
+                        headers=headers,
+                        timeout=aiohttp.ClientTimeout(total=30)
+                    ) as results_response:
+                        if results_response.status != 200:
+                            logging.warning(f"Results check failed: {results_response.status}")
+                            continue
+
+                        results_data = await results_response.json()
+
+                        if results_data.get("code") == 0:
+                            # Results available
+                            data = results_data.get("data", {})
+                            extract_results = data.get("extract_result", [])
+
+                            # Get the first result's full_zip_url
+                            result_url = None
+                            if extract_results and len(extract_results) > 0:
+                                first_result = extract_results[0]
+                                if first_result.get("state") == "done":
+                                    result_url = first_result.get("full_zip_url")
+
+                            if result_url:
+                                logging.info(f"Step 4: Downloading results...")
+
+                                # Download ZIP file
+                                async with session.get(result_url) as zip_response:
+                                    if zip_response.status == 200:
+                                        zip_content = await zip_response.read()
+                                        logging.info(f"Downloaded ZIP file ({len(zip_content):,} bytes)")
+
+                                        # Extract ZIP file
+                                        with zipfile.ZipFile(io.BytesIO(zip_content)) as zf:
+                                            zf.extractall(output_dir)
+                                            logging.info(f"Extracted {len(zf.namelist())} files")
+
+                                        # Find and read the markdown file
+                                        md_files = list(output_dir.glob("**/full.md"))
+                                        if not md_files:
+                                            md_files = list(output_dir.glob("**/*.md"))
+
+                                        if md_files:
+                                            md_file = md_files[0]
+                                            content = md_file.read_text(encoding="utf-8")
+
+                                            # Copy to standard location
+                                            output_md = output_dir / f"{input_path.stem}.md"
+                                            output_md.write_text(content, encoding="utf-8")
+
+                                            # Create content_list.json for compatibility
+                                            content_list = [{
+                                                "type": "text",
+                                                "text": content,
+                                                "page_idx": 0
+                                            }]
+                                            json_file = output_dir / f"{input_path.stem}_content_list.json"
+                                            with open(json_file, "w", encoding="utf-8") as f:
+                                                json.dump(content_list, f, ensure_ascii=False, indent=2)
+
+                                            logging.info(f"Successfully processed {input_path.name}")
+                                            return  # Success
+                                        else:
+                                            raise RuntimeError("No markdown file found in ZIP")
+                                    else:
+                                        raise RuntimeError(f"Failed to download ZIP: {zip_response.status}")
+
+                        elif results_data.get("code") == 1:
+                            # Still processing
+                            if attempt % 6 == 0:  # Log every 30 seconds
+                                logging.info(f"Processing... ({attempt * 5}s elapsed)")
+                            continue
+                        else:
+                            error_msg = results_data.get("msg", "Unknown error")
+                            raise RuntimeError(f"API error: {error_msg}")
+
+                # Timeout
+                raise RuntimeError(f"Polling timeout after {max_attempts * 5} seconds")
+
+        except aiohttp.ClientError as e:
+            logging.error(f"MinerU API network error: {e}")
+            raise RuntimeError(f"Failed to connect to MinerU API: {e}")
+        except Exception as e:
+            logging.error(f"MinerU API error: {e}")
+            raise
+
+    @staticmethod
     def _run_mineru_command(
         input_path: Union[str, Path],
         output_dir: Union[str, Path],
@@ -616,8 +881,34 @@ class MineruParser(Parser):
             source: Model source
             vlm_url: When the backend is `vlm-sglang-client`, you need to specify the server_url
         """
+        # Find mineru executable - check venv first, then PATH
+        import sys
+        import shutil
+
+        mineru_cmd = "mineru"
+
+        # If running in a venv, try to find mineru in the venv's Scripts/bin directory
+        if hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix):
+            # We're in a virtualenv
+            venv_path = Path(sys.prefix)
+            if sys.platform == "win32":
+                mineru_exe = venv_path / "Scripts" / "mineru.exe"
+            else:
+                mineru_exe = venv_path / "bin" / "mineru"
+
+            if mineru_exe.exists():
+                mineru_cmd = str(mineru_exe)
+                logging.debug(f"Found mineru in venv: {mineru_cmd}")
+
+        # If not found in venv, try to find in PATH
+        if mineru_cmd == "mineru":
+            mineru_path = shutil.which("mineru")
+            if mineru_path:
+                mineru_cmd = mineru_path
+                logging.debug(f"Found mineru in PATH: {mineru_cmd}")
+
         cmd = [
-            "mineru",
+            mineru_cmd,
             "-p",
             str(input_path),
             "-o",
@@ -853,12 +1144,15 @@ class MineruParser(Parser):
 
         return content_list, md_content
 
-    def parse_pdf(
+    async def parse_pdf(
         self,
         pdf_path: Union[str, Path],
         output_dir: Optional[str] = None,
         method: str = "auto",
         lang: Optional[str] = None,
+        use_api: bool = False,
+        api_url: Optional[str] = None,
+        api_key: Optional[str] = None,
         **kwargs,
     ) -> List[Dict[str, Any]]:
         """
@@ -869,6 +1163,9 @@ class MineruParser(Parser):
             output_dir: Output directory path
             method: Parsing method (auto, txt, ocr)
             lang: Document language for OCR optimization
+            use_api: Whether to use MinerU API instead of command line
+            api_url: MinerU API service URL (if use_api=True)
+            api_key: MinerU API key (if use_api=True)
             **kwargs: Additional parameters for mineru command
 
         Returns:
@@ -890,14 +1187,29 @@ class MineruParser(Parser):
 
             base_output_dir.mkdir(parents=True, exist_ok=True)
 
-            # Run mineru command
-            self._run_mineru_command(
-                input_path=pdf_path,
-                output_dir=base_output_dir,
-                method=method,
-                lang=lang,
-                **kwargs,
-            )
+            # Choose API or command line method
+            if use_api:
+                if not api_url:
+                    raise ValueError("api_url is required when use_api=True")
+
+                await self._call_mineru_api(
+                    input_path=pdf_path,
+                    output_dir=base_output_dir,
+                    api_url=api_url,
+                    api_key=api_key,
+                    method=method,
+                    lang=lang,
+                    **kwargs,
+                )
+            else:
+                # Run mineru command line
+                self._run_mineru_command(
+                    input_path=pdf_path,
+                    output_dir=base_output_dir,
+                    method=method,
+                    lang=lang,
+                    **kwargs,
+                )
 
             # Read the generated output files
             backend = kwargs.get("backend", "")
@@ -915,11 +1227,14 @@ class MineruParser(Parser):
             logging.error(f"Error in parse_pdf: {str(e)}")
             raise
 
-    def parse_image(
+    async def parse_image(
         self,
         image_path: Union[str, Path],
         output_dir: Optional[str] = None,
         lang: Optional[str] = None,
+        use_api: bool = False,
+        api_url: Optional[str] = None,
+        api_key: Optional[str] = None,
         **kwargs,
     ) -> List[Dict[str, Any]]:
         """
@@ -932,6 +1247,9 @@ class MineruParser(Parser):
             image_path: Path to the image file
             output_dir: Output directory path
             lang: Document language for OCR optimization
+            use_api: Whether to use MinerU API instead of command line
+            api_url: MinerU API service URL (if use_api=True)
+            api_key: MinerU API key (if use_api=True)
             **kwargs: Additional parameters for mineru command
 
         Returns:
@@ -1034,14 +1352,29 @@ class MineruParser(Parser):
             base_output_dir.mkdir(parents=True, exist_ok=True)
 
             try:
-                # Run mineru command (images are processed with OCR method)
-                self._run_mineru_command(
-                    input_path=actual_image_path,
-                    output_dir=base_output_dir,
-                    method="ocr",  # Images require OCR method
-                    lang=lang,
-                    **kwargs,
-                )
+                # Choose API or command line method
+                if use_api:
+                    if not api_url:
+                        raise ValueError("api_url is required when use_api=True")
+
+                    await self._call_mineru_api(
+                        input_path=actual_image_path,
+                        output_dir=base_output_dir,
+                        api_url=api_url,
+                        api_key=api_key,
+                        method="ocr",
+                        lang=lang,
+                        **kwargs,
+                    )
+                else:
+                    # Run mineru command (images are processed with OCR method)
+                    self._run_mineru_command(
+                        input_path=actual_image_path,
+                        output_dir=base_output_dir,
+                        method="ocr",  # Images require OCR method
+                        lang=lang,
+                        **kwargs,
+                    )
 
                 # Read the generated output files
                 content_list, _ = self._read_output_files(
@@ -1136,12 +1469,15 @@ class MineruParser(Parser):
             logging.error(f"Error in parse_text_file: {str(e)}")
             raise
 
-    def parse_document(
+    async def parse_document(
         self,
         file_path: Union[str, Path],
         method: str = "auto",
         output_dir: Optional[str] = None,
         lang: Optional[str] = None,
+        use_api: bool = False,
+        api_url: Optional[str] = None,
+        api_key: Optional[str] = None,
         **kwargs,
     ) -> List[Dict[str, Any]]:
         """
@@ -1152,6 +1488,9 @@ class MineruParser(Parser):
             method: Parsing method (auto, txt, ocr)
             output_dir: Output directory path
             lang: Document language for OCR optimization
+            use_api: Whether to use MinerU API instead of command line
+            api_url: MinerU API service URL (if use_api=True)
+            api_key: MinerU API key (if use_api=True)
             **kwargs: Additional parameters for mineru command
 
         Returns:
@@ -1167,9 +1506,9 @@ class MineruParser(Parser):
 
         # Choose appropriate parser based on file type
         if ext == ".pdf":
-            return self.parse_pdf(file_path, output_dir, method, lang, **kwargs)
+            return await self.parse_pdf(file_path, output_dir, method, lang, use_api, api_url, api_key, **kwargs)
         elif ext in self.IMAGE_FORMATS:
-            return self.parse_image(file_path, output_dir, lang, **kwargs)
+            return await self.parse_image(file_path, output_dir, lang, use_api, api_url, api_key, **kwargs)
         elif ext in self.OFFICE_FORMATS:
             logging.warning(
                 f"Warning: Office document detected ({ext}). "
@@ -1184,7 +1523,7 @@ class MineruParser(Parser):
                 f"Warning: Unsupported file extension '{ext}', "
                 f"attempting to parse as PDF"
             )
-            return self.parse_pdf(file_path, output_dir, method, lang, **kwargs)
+            return await self.parse_pdf(file_path, output_dir, method, lang, use_api, api_url, api_key, **kwargs)
 
     def check_installation(self) -> bool:
         """

@@ -1,0 +1,855 @@
+{
+  "01d1b746d16b32e086f49ebff020c578": {
+    "content_list": [
+      {
+        "type": "text",
+        "text": "子单元3 房屋建筑基本知识",
+        "text_level": 1,
+        "bbox": [
+          325,
+          83,
+          646,
+          104
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "一、单选题",
+        "text_level": 1,
+        "bbox": [
+          81,
+          123,
+          177,
+          138
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "1.建筑物按照使用性质可分为（ $C )$ 。",
+        "bbox": [
+          82,
+          139,
+          392,
+          158
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "$\\textcircled{1}$ 工业建筑 $\\textcircled{2}$ 公共建筑 $\\textcircled{3}$ 民用建筑 $\\textcircled{4}$ 农业建筑 $\\textcircled{5}$ 居住建筑",
+        "bbox": [
+          79,
+          161,
+          586,
+          177
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A. $\\textcircled{1} \\textcircled{2} \\textcircled{3}$ B.②③④   \nC. $\\textcircled{1} \\textcircled{3} \\textcircled{4}$ D.②③⑤ ",
+        "bbox": [
+          79,
+          182,
+          492,
+          218
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "2.商场属于()。",
+        "bbox": [
+          80,
+          224,
+          251,
+          250
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "5 B.公共建筑C.工业建筑 D.农业建筑",
+        "bbox": [
+          80,
+          246,
+          505,
+          282
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "3.民用建筑包括居住建筑和公共建筑，其中",
+        "bbox": [
+          83,
+          287,
+          413,
+          303
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.托儿所 B.宾CC.公寓 D.疗养院",
+        "bbox": [
+          80,
+          307,
+          502,
+          344
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "4.住宅建筑按照层数可分为（ $B :$ ",
+        "bbox": [
+          82,
+          346,
+          372,
+          372
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "$\\textcircled{1}$ 单层建筑 $\\textcircled{2}$ 低层建筑 $\\textcircled{3}$ 多层建筑 $\\textcircled{4}$ 中高层建筑 $\\textcircled{5}$ 高层建筑",
+        "bbox": [
+          84,
+          372,
+          602,
+          388
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A. $\\textcircled{1} \\textcircled{2} \\textcircled{3}$ B. $\\textcircled{2} \\textcircled{3} \\textcircled{5}$   \nC. $\\textcircled{3}$ D. $\\textcircled{2} \\textcircled{4} \\textcircled{5}$ ",
+        "bbox": [
+          81,
+          393,
+          489,
+          431
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "5. 下列不属于公共建筑的是（  》。",
+        "bbox": [
+          82,
+          429,
+          372,
+          461
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "B.医院C.酒店 D:宿舍",
+        "bbox": [
+          83,
+          454,
+          470,
+          494
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "6.除住宅之外的民用建筑高度小于或等于 $1 3 ) m$ 的建筑属于非高层建筑。",
+        "bbox": [
+          86,
+          493,
+          663,
+          518
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.14 B.24 C.34 D.44 ",
+        "bbox": [
+          83,
+          521,
+          629,
+          535
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "7.除住宅之外的民用建筑高度超过（ $( 3 ) ^ { m }$ 的二层及以上建筑属于高层建筑。",
+        "bbox": [
+          78,
+          535,
+          677,
+          564
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.14 B.24 C.34 D.44 ",
+        "bbox": [
+          87,
+          565,
+          627,
+          578
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "8.对民用建筑分类时规定：建筑高度超过（ $D _ { 1 } 、$ 的属于超高层建筑。",
+        "bbox": [
+          85,
+          579,
+          630,
+          604
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.14 B.24 C.50 D.100 ",
+        "bbox": [
+          85,
+          607,
+          633,
+          621
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "9.以砌体墙、柱和（ $a$ 作为主要承重构件的结构，称为砖混结构。",
+        "bbox": [
+          84,
+          623,
+          621,
+          644
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.压型钢板组合楼板B.钢楼板 C.钢筋混凝土楼板 D.木楼板",
+        "bbox": [
+          85,
+          649,
+          659,
+          665
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "10.下列不是钢结构特点的是 $( C )$ ",
+        "bbox": [
+          83,
+          669,
+          378,
+          688
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.强度高 B.刚度大 C.自重大 P.耐久性差 ",
+        "bbox": [
+          82,
+          693,
+          502,
+          732
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "11.特别重要的建筑，设计使用年限为（)。",
+        "bbox": [
+          82,
+          734,
+          448,
+          753
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.100年 B.50年C.25年 D.5年",
+        "bbox": [
+          81,
+          758,
+          474,
+          794
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "12.普通建筑物按耐火极限不同，分为（ $\\triangleright$ 个耐火等级。",
+        "bbox": [
+          82,
+          794,
+          539,
+          818
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.一 B.二 C.三 D.四 ",
+        "bbox": [
+          83,
+          823,
+          456,
+          859
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "13.耐火等级为（ ☆级建筑物，相应构件耐火极限时间最长。",
+        "bbox": [
+          83,
+          859,
+          573,
+          885
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "A.一 B.二 C.三 D.四 ",
+        "bbox": [
+          84,
+          887,
+          454,
+          923
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "14.构件耐火极限是指在标准耐火试验条件下，从受到火的作用时起到失去承载能力、完整性或隔热性为止的",
+        "bbox": [
+          75,
+          927,
+          912,
+          945
+        ],
+        "page_idx": 0
+      },
+      {
+        "type": "text",
+        "text": "这段时间，用（ 表示。",
+        "bbox": [
+          71,
+          94,
+          288,
+          122
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A.秒 B.分 C.小时 D.日",
+        "bbox": [
+          106,
+          123,
+          629,
+          137
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "15.普通建筑物的设计使用年限为",
+        "bbox": [
+          104,
+          142,
+          355,
+          160
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "$A Q$ ",
+        "bbox": [
+          361,
+          136,
+          447,
+          165
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A.50 B.40 C.25 D.100 ",
+        "bbox": [
+          106,
+          165,
+          643,
+          177
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "(16.高层住宅是指层数大于（）层或高度大于（) $\\mathbf { m }$ 的住宅。C",
+        "bbox": [
+          100,
+          183,
+          656,
+          198
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "9,27 B.9,24 C. 10,30 D. 10, ",
+        "bbox": [
+          122,
+          204,
+          646,
+          217
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "17.铝合金门窗燃烧性能属于（ ）性。",
+        "bbox": [
+          108,
+          224,
+          417,
+          239
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A.不燃 B.可燃 C.难燃 D.易燃 ",
+        "bbox": [
+          108,
+          244,
+          648,
+          258
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "18.下列（ ）不是建筑物的保温措施。",
+        "bbox": [
+          106,
+          264,
+          418,
+          280
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "image",
+        "img_path": "E:\\RAG-Anything\\backend\\output\\测试1.3\\auto\\images\\67351eda2b30b08c18214dd9762b73ec73e13e625ad26c5ac86853563c4a3838.jpg",
+        "image_caption": [],
+        "image_footnote": [],
+        "bbox": [
+          436,
+          259,
+          462,
+          281
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A.增加外窗面积 B.选择热传导系数低的保温材料C.防止空气渗透 D.增加外窗中空玻璃层数",
+        "bbox": [
+          104,
+          285,
+          657,
+          319
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "9分模数的基数为（ )。",
+        "bbox": [
+          103,
+          325,
+          325,
+          344
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "image",
+        "img_path": "E:\\RAG-Anything\\backend\\output\\测试1.3\\auto\\images\\b933dc2e75b08a0f99e308e91585f629e452bd2d0378be75fff93c0d556f2a00.jpg",
+        "image_caption": [],
+        "image_footnote": [],
+        "bbox": [
+          346,
+          316,
+          406,
+          344
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "$\\textcircled{1} 1 / 1 0 \\mathbf { M }$ [] ②1/5M ③1/4M ④1/3M ⑤1/2M ",
+        "bbox": [
+          106,
+          346,
+          539,
+          361
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A. $\\textcircled{1} \\textcircled{3} \\textcircled{4}$ B.③④⑤   \nC. $\\textcircled{2} \\textcircled{3} \\textcircled{4}$ D.①②⑤ ",
+        "bbox": [
+          104,
+          364,
+          497,
+          401
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "20.基本模数是模数协调中选定的基本尺寸单位，其符号为M，数值为（ )A",
+        "bbox": [
+          100,
+          406,
+          710,
+          424
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A. $1 0 0 \\mathrm { m m }$ [ B. 10mm .C.1000mm D.1mm ",
+        "bbox": [
+          104,
+          428,
+          642,
+          442
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "21．下列构件尺寸之间关系正确的是",
+        "bbox": [
+          104,
+          448,
+          375,
+          464
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "image",
+        "img_path": "E:\\RAG-Anything\\backend\\output\\测试1.3\\auto\\images\\e7640e4c4d0278a223c7de1f2ae001e721fc65b72eb8119872a61ec9e2da1dd7.jpg",
+        "image_caption": [],
+        "image_footnote": [],
+        "bbox": [
+          378,
+          441,
+          474,
+          472
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A.制作尺寸等于实际尺寸加制作公差 VB.标志尺寸等于制作尺寸C实际尺寸等于标志尺寸 D.标志尺寸等于制作尺寸加制作公差",
+        "bbox": [
+          103,
+          468,
+          691,
+          504
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "根据中国气候区划图，下列哪些地区属于夏热冬冷地区（ ）。",
+        "bbox": [
+          127,
+          509,
+          604,
+          525
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "①南昌 $\\textcircled{2}$ 武汉 $\\textcircled{3}$ 杭州 ④广州 $\\textcircled{5}$ 长春 ",
+        "bbox": [
+          104,
+          529,
+          525,
+          547
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "A. $\\textcircled{1} \\textcircled{3} \\textcircled{4}$ B.③④⑤ C.②③④ D.①②③ ",
+        "bbox": [
+          107,
+          549,
+          684,
+          570
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "二、填空题",
+        "text_level": 1,
+        "bbox": [
+          105,
+          571,
+          194,
+          586
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "1.按建筑结构材料分，建筑物可分为 和组合结构。",
+        "bbox": [
+          105,
+          590,
+          767,
+          608
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "2.墙体的作用有 三种。",
+        "bbox": [
+          102,
+          611,
+          552,
+          628
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "3.建筑构造的影响因素包括 、自然因素、 和建筑技术条件。",
+        "bbox": [
+          104,
+          631,
+          705,
+          648
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "4.建筑构件的燃烧性能一般可分为 和 三类。",
+        "bbox": [
+          108,
+          652,
+          779,
+          668
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "5.建筑模数一般可分为基本模数、",
+        "bbox": [
+          103,
+          673,
+          565,
+          689
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "6.一般建筑由 、 及门窗等部分组成。",
+        "bbox": [
+          104,
+          692,
+          847,
+          710
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "三、判断题",
+        "text_level": 1,
+        "bbox": [
+          106,
+          714,
+          194,
+          729
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "equation",
+        "img_path": "E:\\RAG-Anything\\backend\\output\\测试1.3\\auto\\images\\11dd9f0b35b581ba449d450b2d31aac5aa4ff44ed17d20366f7a412c99a07451.jpg",
+        "text": "$$\n\\begin{array} { l } { { \\langle \\begin{array} { c } { { \\sf X } } \\\\ { { \\sf X } } \\end{array} \\rangle } } \\\\ { { ( \\begin{array} { c } { { \\sf X } } \\\\ { { \\sf X } } \\end{array} ) } } \\\\ { { ( \\begin{array} { c } { { \\sf X } } \\\\ { { \\sf X } } \\end{array} ) } } \\end{array}\n$$",
+        "text_format": "latex",
+        "bbox": [
+          819,
+          725,
+          883,
+          837
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "2.建筑高度为 $3 0 \\mathrm { m }$ 的单层图书馆是高层建筑。",
+        "bbox": [
+          87,
+          753,
+          883,
+          769
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "3.宿舍、公寓均属于非住宅类居住建筑。",
+        "bbox": [
+          91,
+          775,
+          883,
+          791
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "1.别墅、宿舍、宾馆、公寓都属于公共建筑。",
+        "bbox": [
+          96,
+          733,
+          886,
+          749
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "4.建筑物的设计使用年限至少50年以上。",
+        "bbox": [
+          92,
+          795,
+          881,
+          811
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "5.夏热冬冷地区建筑构造必须满足夏季防热同时兼顾冬季防寒。",
+        "bbox": [
+          90,
+          815,
+          882,
+          830
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "四、简答题",
+        "bbox": [
+          94,
+          834,
+          875,
+          851
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "1.民用建筑的基本组成部分有哪些？各部分有何作用？",
+        "bbox": [
+          104,
+          856,
+          493,
+          871
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "2.党的二十大报告提出“推动经济社会发展绿色化、低碳化”，在民用建筑构造中具体体现在哪些方面？",
+        "bbox": [
+          104,
+          876,
+          864,
+          892
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "3.什么是基本模数？什么是扩大模数和分模数？",
+        "bbox": [
+          104,
+          897,
+          447,
+          912
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "五、抄绘题",
+        "text_level": 1,
+        "bbox": [
+          104,
+          917,
+          192,
+          935
+        ],
+        "page_idx": 1
+      },
+      {
+        "type": "text",
+        "text": "观察图1-1，分析图中所用线型对应的线宽分别是多少？并试按所选线宽组和规定比例进行抄绘。",
+        "bbox": [
+          103,
+          937,
+          808,
+          953
+        ],
+        "page_idx": 1
+      }
+    ],
+    "doc_id": "doc-c967c12c9fb0058d32d70dda00c2d6ae",
+    "mtime": 1759592304.419514,
+    "parse_config": {
+      "parser": "mineru",
+      "parse_method": "auto"
+    },
+    "cached_at": 1759592312.5220637,
+    "cache_version": "1.0",
+    "create_time": 1759592312,
+    "update_time": 1759592312,
+    "_id": "01d1b746d16b32e086f49ebff020c578"
+  }
+}

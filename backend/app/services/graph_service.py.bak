@@ -1,0 +1,130 @@
+"""Graph database service for Neo4j"""
+from typing import List, Dict, Any, Optional
+from neo4j import AsyncGraphDatabase
+from app.core.config import settings
+
+
+class GraphService:
+    """Neo4j graph database service"""
+
+    def __init__(self):
+        self.driver = AsyncGraphDatabase.driver(
+            settings.NEO4J_URL,
+            auth=(settings.NEO4J_USER, settings.NEO4J_PASSWORD),
+        )
+
+    async def close(self):
+        """Close database connection"""
+        await self.driver.close()
+
+    async def store_entities(
+        self, kb_id: int, entities: List[Dict[str, Any]], relations: List[Dict[str, Any]]
+    ):
+        """
+        Store entities and relations in Neo4j
+
+        Args:
+            kb_id: Knowledge base ID
+            entities: List of entities
+            relations: List of relations
+        """
+        async with self.driver.session() as session:
+            # Create entities
+            for entity in entities:
+                await session.run(
+                    """
+                    MERGE (e:Entity {id: $id, kb_id: $kb_id})
+                    SET e.name = $name,
+                        e.type = $type,
+                        e.description = $description,
+                        e.metadata = $metadata
+                    """,
+                    id=entity.get("id"),
+                    kb_id=kb_id,
+                    name=entity.get("name"),
+                    type=entity.get("type", "unknown"),
+                    description=entity.get("description"),
+                    metadata=entity.get("metadata", {}),
+                )
+
+            # Create relations
+            for relation in relations:
+                await session.run(
+                    """
+                    MATCH (source:Entity {id: $source_id, kb_id: $kb_id})
+                    MATCH (target:Entity {id: $target_id, kb_id: $kb_id})
+                    MERGE (source)-[r:RELATES {type: $rel_type}]->(target)
+                    SET r.weight = $weight,
+                        r.metadata = $metadata
+                    """,
+                    source_id=relation.get("source"),
+                    target_id=relation.get("target"),
+                    kb_id=kb_id,
+                    rel_type=relation.get("type", "RELATED_TO"),
+                    weight=relation.get("weight", 1.0),
+                    metadata=relation.get("metadata", {}),
+                )
+
+    async def query_graph(
+        self, kb_id: int, filters: Optional[Dict[str, Any]] = None, limit: int = 100
+    ) -> Dict[str, Any]:
+        """
+        Query knowledge graph
+
+        Args:
+            kb_id: Knowledge base ID
+            filters: Query filters
+            limit: Maximum number of results
+
+        Returns:
+            Graph data with entities and relations
+        """
+        async with self.driver.session() as session:
+            # Get entities
+            entity_query = """
+            MATCH (e:Entity {kb_id: $kb_id})
+            RETURN e.id as id, e.name as name, e.type as type,
+                   e.description as description, e.metadata as metadata
+            LIMIT $limit
+            """
+            entity_result = await session.run(entity_query, kb_id=kb_id, limit=limit)
+            entities = [dict(record) async for record in entity_result]
+
+            # Get relations
+            relation_query = """
+            MATCH (source:Entity {kb_id: $kb_id})-[r:RELATES]->(target:Entity {kb_id: $kb_id})
+            RETURN source.id as source, target.id as target, r.type as type,
+                   r.weight as weight, r.metadata as metadata
+            LIMIT $limit
+            """
+            relation_result = await session.run(relation_query, kb_id=kb_id, limit=limit)
+            relations = [dict(record) async for record in relation_result]
+
+            return {"entities": entities, "relations": relations}
+
+    async def get_graph_stats(self, kb_id: int) -> Dict[str, int]:
+        """Get graph statistics"""
+        async with self.driver.session() as session:
+            stats_query = """
+            MATCH (e:Entity {kb_id: $kb_id})
+            OPTIONAL MATCH (e)-[r:RELATES]->()
+            RETURN count(DISTINCT e) as entity_count, count(r) as relation_count
+            """
+            result = await session.run(stats_query, kb_id=kb_id)
+            stats = await result.single()
+
+            return {
+                "entity_count": stats["entity_count"] if stats else 0,
+                "relation_count": stats["relation_count"] if stats else 0,
+            }
+
+    async def delete_kb_graph(self, kb_id: int):
+        """Delete all graph data for a knowledge base"""
+        async with self.driver.session() as session:
+            await session.run(
+                """
+                MATCH (e:Entity {kb_id: $kb_id})
+                DETACH DELETE e
+                """,
+                kb_id=kb_id,
+            )

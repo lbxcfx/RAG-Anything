@@ -328,11 +328,18 @@ class ProcessorMixin:
 
             if ext in [".pdf"]:
                 self.logger.info("Detected PDF file, using parser for PDF...")
-                content_list = await asyncio.to_thread(
-                    doc_parser.parse_pdf,
+                # Get API settings from config if available
+                use_api = getattr(self.config, 'mineru_use_api', False)
+                api_url = getattr(self.config, 'mineru_api_url', None)
+                api_key = getattr(self.config, 'mineru_api_key', None)
+
+                content_list = await doc_parser.parse_pdf(
                     pdf_path=file_path,
                     output_dir=output_dir,
                     method=parse_method,
+                    use_api=use_api,
+                    api_url=api_url,
+                    api_key=api_key,
                     **kwargs,
                 )
             elif ext in [
@@ -346,12 +353,19 @@ class ProcessorMixin:
                 ".webp",
             ]:
                 self.logger.info("Detected image file, using parser for images...")
+                # Get API settings from config if available
+                use_api = getattr(self.config, 'mineru_use_api', False)
+                api_url = getattr(self.config, 'mineru_api_url', None)
+                api_key = getattr(self.config, 'mineru_api_key', None)
+
                 # Use the selected parser's image parsing capability
                 if hasattr(doc_parser, "parse_image"):
-                    content_list = await asyncio.to_thread(
-                        doc_parser.parse_image,
+                    content_list = await doc_parser.parse_image(
                         image_path=file_path,
                         output_dir=output_dir,
+                        use_api=use_api,
+                        api_url=api_url,
+                        api_key=api_key,
                         **kwargs,
                     )
                 else:
@@ -359,8 +373,13 @@ class ProcessorMixin:
                     self.logger.warning(
                         f"{self.config.parser} parser doesn't support image parsing, falling back to MinerU"
                     )
-                    content_list = MineruParser().parse_image(
-                        image_path=file_path, output_dir=output_dir, **kwargs
+                    content_list = await MineruParser().parse_image(
+                        image_path=file_path,
+                        output_dir=output_dir,
+                        use_api=use_api,
+                        api_url=api_url,
+                        api_key=api_key,
+                        **kwargs
                     )
             elif ext in [
                 ".doc",

@@ -34,6 +34,17 @@ class RAGAnythingConfig:
     )
     """Whether to display content statistics during parsing."""
 
+    # MinerU API Configuration
+    # ---
+    mineru_use_api: bool = field(default=get_env_value("MINERU_USE_API", False, bool))
+    """Whether to use MinerU API instead of local command line."""
+
+    mineru_api_url: str = field(default=get_env_value("MINERU_API_URL", "http://localhost:8000", str))
+    """MinerU API service URL."""
+
+    mineru_api_key: str = field(default=get_env_value("MINERU_API_KEY", None, str))
+    """MinerU API key for authentication (optional for local service)."""
+
     # Multimodal Processing Configuration
     # ---
     enable_image_processing: bool = field(

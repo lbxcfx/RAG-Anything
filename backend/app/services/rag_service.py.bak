@@ -1,0 +1,202 @@
+"""RAG service - Wrapper for RAGAnything"""
+import os
+from typing import Optional, List, Dict, Any
+from raganything import RAGAnything, RAGAnythingConfig
+from lightrag.llm.openai import openai_complete_if_cache, openai_embed
+from lightrag.utils import EmbeddingFunc
+from app.core.config import settings
+
+
+class RAGService:
+    """RAG service for knowledge base operations"""
+
+    def __init__(self, kb_config: dict, model_configs: dict):
+        """
+        Initialize RAG service
+
+        Args:
+            kb_config: Knowledge base configuration
+            model_configs: Model configurations (llm, vlm, embedding)
+        """
+        self.kb_config = kb_config
+        self.model_configs = model_configs
+        self.rag_instance: Optional[RAGAnything] = None
+
+    async def initialize(self):
+        """Initialize RAGAnything instance"""
+        # Extract model configs
+        llm_config = self.model_configs.get("llm")
+        vlm_config = self.model_configs.get("vlm")
+        embed_config = self.model_configs.get("embedding")
+
+        # Create RAGAnything configuration
+        config = RAGAnythingConfig(
+            working_dir=self.kb_config.get("working_dir", "./rag_storage"),
+            parser=self.kb_config.get("parser_type", "mineru"),
+            parse_method=self.kb_config.get("parse_method", "auto"),
+            enable_image_processing=self.kb_config.get("enable_image_processing", True),
+            enable_table_processing=self.kb_config.get("enable_table_processing", True),
+            enable_equation_processing=self.kb_config.get("enable_equation_processing", True),
+        )
+
+        # Define LLM model function
+        def llm_model_func(prompt, system_prompt=None, history_messages=[], **kwargs):
+            return openai_complete_if_cache(
+                llm_config.get("model_name", settings.DEFAULT_LLM_MODEL),
+                prompt,
+                system_prompt=system_prompt,
+                history_messages=history_messages,
+                api_key=llm_config.get("api_key", settings.OPENAI_API_KEY),
+                base_url=llm_config.get("api_base_url", settings.OPENAI_BASE_URL),
+                **{**llm_config.get("parameters", {}), **kwargs},
+            )
+
+        # Define vision model function
+        def vision_model_func(
+            prompt, system_prompt=None, history_messages=[], image_data=None, messages=None, **kwargs
+        ):
+            if messages:
+                return openai_complete_if_cache(
+                    vlm_config.get("model_name", settings.DEFAULT_VLM_MODEL),
+                    "",
+                    system_prompt=None,
+                    history_messages=[],
+                    messages=messages,
+                    api_key=vlm_config.get("api_key", settings.OPENAI_API_KEY),
+                    base_url=vlm_config.get("api_base_url", settings.OPENAI_BASE_URL),
+                    **kwargs,
+                )
+            elif image_data:
+                return openai_complete_if_cache(
+                    vlm_config.get("model_name", settings.DEFAULT_VLM_MODEL),
+                    "",
+                    system_prompt=None,
+                    history_messages=[],
+                    messages=[
+                        {"role": "system", "content": system_prompt} if system_prompt else None,
+                        {
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": prompt},
+                                {
+                                    "type": "image_url",
+                                    "image_url": {"url": f"data:image/jpeg;base64,{image_data}"},
+                                },
+                            ],
+                        }
+                        if image_data
+                        else {"role": "user", "content": prompt},
+                    ],
+                    api_key=vlm_config.get("api_key", settings.OPENAI_API_KEY),
+                    base_url=vlm_config.get("api_base_url", settings.OPENAI_BASE_URL),
+                    **kwargs,
+                )
+            else:
+                return llm_model_func(prompt, system_prompt, history_messages, **kwargs)
+
+        # Define embedding function
+        embedding_func = EmbeddingFunc(
+            embedding_dim=embed_config.get("parameters", {}).get(
+                "embedding_dim", settings.DEFAULT_EMBEDDING_DIM
+            ),
+            max_token_size=embed_config.get("parameters", {}).get("max_token_size", 8192),
+            func=lambda texts: openai_embed(
+                texts,
+                model=embed_config.get("model_name", settings.DEFAULT_EMBEDDING_MODEL),
+                api_key=embed_config.get("api_key", settings.OPENAI_API_KEY),
+                base_url=embed_config.get("api_base_url", settings.OPENAI_BASE_URL),
+            ),
+        )
+
+        # Initialize RAGAnything
+        self.rag_instance = RAGAnything(
+            config=config,
+            llm_model_func=llm_model_func,
+            vision_model_func=vision_model_func if vlm_config else None,
+            embedding_func=embedding_func,
+        )
+
+        return self.rag_instance
+
+    async def process_document(
+        self, file_path: str, output_dir: str, parse_method: str = "auto"
+    ) -> Dict[str, Any]:
+        """
+        Process a document
+
+        Args:
+            file_path: Path to the document
+            output_dir: Output directory for parsed content
+            parse_method: Parsing method (auto, ocr, txt)
+
+        Returns:
+            Processing result
+        """
+        if not self.rag_instance:
+            await self.initialize()
+
+        result = await self.rag_instance.process_document_complete(
+            file_path=file_path, output_dir=output_dir, parse_method=parse_method
+        )
+
+        return result
+
+    async def query(
+        self,
+        question: str,
+        mode: str = "hybrid",
+        multimodal_content: Optional[List[Dict[str, Any]]] = None,
+        vlm_enhanced: Optional[bool] = None,
+    ) -> str:
+        """
+        Query the knowledge base
+
+        Args:
+            question: User question
+            mode: Query mode (hybrid, local, global, naive)
+            multimodal_content: Optional multimodal content
+            vlm_enhanced: Enable VLM enhancement
+
+        Returns:
+            Answer string
+        """
+        if not self.rag_instance:
+            await self.initialize()
+
+        if multimodal_content:
+            result = await self.rag_instance.aquery_with_multimodal(
+                question, multimodal_content=multimodal_content, mode=mode
+            )
+        else:
+            query_kwargs = {"mode": mode}
+            if vlm_enhanced is not None:
+                query_kwargs["vlm_enhanced"] = vlm_enhanced
+
+            result = await self.rag_instance.aquery(question, **query_kwargs)
+
+        return result
+
+    async def get_knowledge_graph(self) -> Dict[str, Any]:
+        """
+        Get knowledge graph data
+
+        Returns:
+            Graph data with entities and relations
+        """
+        if not self.rag_instance:
+            await self.initialize()
+
+        # This would retrieve graph data from LightRAG
+        # For now, return placeholder
+        return {"entities": [], "relations": []}
+
+    async def insert_content_list(
+        self, content_list: List[Dict[str, Any]], file_path: str, doc_id: Optional[str] = None
+    ):
+        """Insert pre-parsed content list"""
+        if not self.rag_instance:
+            await self.initialize()
+
+        await self.rag_instance.insert_content_list(
+            content_list=content_list, file_path=file_path, doc_id=doc_id
+        )

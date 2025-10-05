@@ -483,10 +483,9 @@ class ProcessorMixin:
         try:
             existing_doc_status = await self.lightrag.doc_status.get_by_id(doc_id)
             if existing_doc_status:
-                # Check if multimodal content is already processed
-                multimodal_processed = existing_doc_status.get(
-                    "multimodal_processed", False
-                )
+                # Check if multimodal content is already processed (from metadata)
+                metadata = existing_doc_status.get("metadata", {})
+                multimodal_processed = metadata.get("multimodal_processed", False)
 
                 if multimodal_processed:
                     self.logger.info(
@@ -1177,11 +1176,14 @@ class ProcessorMixin:
         )
         from lightrag.operate import extract_entities
 
+        self.logger.info(f"  → Starting LLM-based entity and relation extraction from {len(lightrag_chunks)} chunks...")
+
         # Get pipeline status (consistent with LightRAG)
         pipeline_status = await get_namespace_data("pipeline_status")
         pipeline_status_lock = get_pipeline_status_lock()
 
-        # Directly use LightRAG's extract_entities
+        # Directly use LightRAG's extract_entities (THIS IS WHERE LLM IS CALLED)
+        self.logger.info(f"  → Calling LightRAG extract_entities (uses LLM to extract entities and relations)...")
         chunk_results = await extract_entities(
             chunks=lightrag_chunks,
             global_config=self.lightrag.__dict__,
@@ -1192,8 +1194,9 @@ class ProcessorMixin:
         )
 
         self.logger.info(
-            f"Extracted entities from {len(lightrag_chunks)} multimodal chunks"
+            f"  ✓ LLM entity extraction completed! Extracted entities from {len(lightrag_chunks)} multimodal chunks"
         )
+        self.logger.info(f"  ✓ Got {len(chunk_results)} chunk results with entities and relations")
         return chunk_results
 
     async def _batch_add_belongs_to_relations_type_aware(
@@ -1338,11 +1341,15 @@ class ProcessorMixin:
         try:
             current_doc_status = await self.lightrag.doc_status.get_by_id(doc_id)
             if current_doc_status:
+                # Store multimodal_processed in metadata to avoid conflicts with DocProcessingStatus schema
+                metadata = current_doc_status.get("metadata", {})
+                metadata["multimodal_processed"] = True
+                
                 await self.lightrag.doc_status.upsert(
                     {
                         doc_id: {
                             **current_doc_status,
-                            "multimodal_processed": True,
+                            "metadata": metadata,
                             "updated_at": time.strftime("%Y-%m-%dT%H:%M:%S+00:00"),
                         }
                     }
@@ -1372,7 +1379,8 @@ class ProcessorMixin:
                 return False
 
             text_processed = doc_status.get("status") == "PROCESSED"
-            multimodal_processed = doc_status.get("multimodal_processed", False)
+            metadata = doc_status.get("metadata", {})
+            multimodal_processed = metadata.get("multimodal_processed", False)
 
             return text_processed and multimodal_processed
 
@@ -1404,7 +1412,8 @@ class ProcessorMixin:
                 }
 
             text_processed = doc_status.get("status") == "PROCESSED"
-            multimodal_processed = doc_status.get("multimodal_processed", False)
+            metadata = doc_status.get("metadata", {})
+            multimodal_processed = metadata.get("multimodal_processed", False)
             fully_processed = text_processed and multimodal_processed
 
             return {

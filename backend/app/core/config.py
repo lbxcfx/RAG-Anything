@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 10080  # 7 days
 
     # Database
-    DATABASE_URL: str = "postgresql://postgres:password@localhost:5432/rag_anything"
+    DATABASE_URL: str = "sqlite:///./rag_anything_dev.db"
 
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     # Neo4j
     NEO4J_URL: str = "bolt://localhost:7687"
     NEO4J_USER: str = "neo4j"
-    NEO4J_PASSWORD: str = "password"
+    NEO4J_PASSWORD: str = "neo4jpassword"
 
     # Qdrant
     QDRANT_URL: str = "http://localhost:6333"
@@ -48,10 +48,10 @@ class Settings(BaseSettings):
     VECTOR_DIR: str = "./storage/vectors"
 
     # RAG Configuration
-    DEFAULT_LLM_MODEL: str = "gpt-4o-mini"
-    DEFAULT_VLM_MODEL: str = "gpt-4o"
-    DEFAULT_EMBEDDING_MODEL: str = "text-embedding-3-large"
-    DEFAULT_EMBEDDING_DIM: int = 3072
+    DEFAULT_LLM_MODEL: str = "qwen-turbo"
+    DEFAULT_VLM_MODEL: str = "qwen-vl-max"
+    DEFAULT_EMBEDDING_MODEL: str = "text-embedding-v3"
+    DEFAULT_EMBEDDING_DIM: int = 1024
 
     # Parser Configuration
     DEFAULT_PARSER: str = "mineru"
@@ -71,7 +71,7 @@ class Settings(BaseSettings):
     LOG_DIR: str = "./logs"
 
     # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173"]
+    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:5173", "http://localhost:4173", "http://localhost:4174"]
 
     @validator("CORS_ORIGINS", pre=True)
     def parse_cors_origins(cls, v):
@@ -80,7 +80,7 @@ class Settings(BaseSettings):
         return v
 
     class Config:
-        env_file = ".env"
+        env_file = "../.env"
         case_sensitive = True
         env_file_encoding = "utf-8"
         extra = "ignore"  # 忽略额外的环境变量

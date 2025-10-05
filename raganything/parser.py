@@ -632,7 +632,15 @@ class MineruParser(Parser):
             base_url = api_url
 
         try:
-            async with aiohttp.ClientSession() as session:
+            # Create SSL context that allows legacy renegotiation
+            import ssl
+            ssl_context = ssl.create_default_context()
+            ssl_context.options |= 0x4  # OP_LEGACY_SERVER_CONNECT
+
+            # Create connector with SSL context
+            connector = aiohttp.TCPConnector(ssl=ssl_context)
+
+            async with aiohttp.ClientSession(connector=connector) as session:
                 logging.info(f"Calling MinerU Cloud API for {input_path.name}")
 
                 # Step 1: Request upload URL

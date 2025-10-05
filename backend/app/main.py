@@ -18,6 +18,7 @@ async def lifespan(app: FastAPI):
     print(f"[REDIS] Redis: {settings.REDIS_URL}")
     print(f"[NEO4J] Neo4j: {settings.NEO4J_URL}")
     print(f"[QDRANT] Qdrant: {settings.QDRANT_URL}")
+    print(f"[NEO4J_PASSWORD] Using password: {settings.NEO4J_PASSWORD[:5]}...")
 
     yield
 

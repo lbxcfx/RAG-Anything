@@ -2,6 +2,7 @@
 from typing import List
 import os
 import shutil
+import logging
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -14,6 +15,7 @@ from app.models.knowledge_base import KnowledgeBase
 from app.schemas.document import DocumentResponse
 from app.core.config import settings
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -139,6 +141,22 @@ async def delete_document(
     # Delete file
     if os.path.exists(document.original_path):
         os.remove(document.original_path)
+
+    # Delete associated entities and relations from Neo4j
+    from app.services.graph_service import GraphService
+    graph_service = GraphService()
+    await graph_service.delete_document_entities(document.knowledge_base_id, document.original_path)
+    await graph_service.close()
+
+    # Delete associated entities and relations from LightRAG storage
+    try:
+        from app.services.lightrag_cleanup_service import LightRAGCleanupService
+        cleanup_service = LightRAGCleanupService()
+        cleanup_stats = cleanup_service.delete_document_from_lightrag(document.knowledge_base_id, document.original_path)
+        logger.info(f"Completed LightRAG cleanup for document {doc_id}: {cleanup_stats}")
+    except Exception as e:
+        logger.error(f"Error deleting LightRAG entities for document {doc_id}: {e}", exc_info=True)
+        # Continue with database deletion even if LightRAG cleanup fails
 
     # Delete from database
     await db.delete(document)

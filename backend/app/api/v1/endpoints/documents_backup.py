@@ -2,6 +2,7 @@
 from typing import List
 import os
 import shutil
+import logging
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -15,6 +16,7 @@ from app.schemas.document import DocumentResponse, DocumentCreate
 from app.core.config import settings
 from app.tasks.document_tasks import process_document_task
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -144,9 +146,31 @@ async def delete_document(
     if os.path.exists(document.original_path):
         os.remove(document.original_path)
 
+    # Delete associated entities and relations from Neo4j
+    try:
+        from app.services.graph_service import GraphService
+        graph_service = GraphService()
+        await graph_service.delete_document_entities(document.knowledge_base_id, document.original_path)
+        await graph_service.close()
+        logger.info(f"Completed Neo4j cleanup for document {doc_id}")
+    except Exception as e:
+        logger.error(f"Error deleting Neo4j entities for document {doc_id}: {e}", exc_info=True)
+        # Continue with database deletion even if Neo4j cleanup fails
+
+    # Delete associated entities and relations from LightRAG storage
+    try:
+        from app.services.lightrag_cleanup_service import LightRAGCleanupService
+        cleanup_service = LightRAGCleanupService()
+        cleanup_stats = cleanup_service.delete_document_from_lightrag(document.knowledge_base_id, document.original_path)
+        logger.info(f"Completed LightRAG cleanup for document {doc_id}: {cleanup_stats}")
+    except Exception as e:
+        logger.error(f"Error deleting LightRAG entities for document {doc_id}: {e}", exc_info=True)
+        # Continue with database deletion even if LightRAG cleanup fails
+
     # Delete from database
     await db.delete(document)
     await db.commit()
+    logger.info(f"Document {doc_id} deleted from database")
 
 
 @router.websocket("/ws/{doc_id}/progress")

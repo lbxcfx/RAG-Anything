@@ -56,9 +56,11 @@
               </div>
             </div>
             <div class="kb-config">
-              <el-tag size="small">{{ getParserName(kb.parser_config?.type) }}</el-tag>
-              <el-tag v-if="kb.parser_config?.enable_ocr" size="small" type="success">OCR</el-tag>
-              <el-tag v-if="kb.parser_config?.enable_table" size="small" type="warning">表格</el-tag>
+              <el-tag size="small">{{ getParserName(kb.parser_type) }}</el-tag>
+              <el-tag size="small" type="info">{{ kb.parse_method || 'auto' }}</el-tag>
+              <el-tag v-if="kb.enable_image_processing" size="small" type="success">图片</el-tag>
+              <el-tag v-if="kb.enable_table_processing" size="small" type="warning">表格</el-tag>
+              <el-tag v-if="kb.enable_equation_processing" size="small" type="danger">公式</el-tag>
             </div>
           </div>
           <template #footer>
@@ -97,19 +99,55 @@
         </el-form-item>
         <el-form-item label="解析器类型" prop="parser_type">
           <el-select v-model="form.parser_type" placeholder="请选择解析器类型" style="width: 100%">
-            <el-option label="LlamaParse" value="llama_parse" />
-            <el-option label="UnstructuredIO" value="unstructured_io" />
-            <el-option label="Marker" value="marker" />
+            <el-option label="MinerU (学术论文推荐)" value="mineru" />
+            <el-option label="Docling (企业文档推荐)" value="docling" />
           </el-select>
         </el-form-item>
-        <el-form-item label="启用OCR" prop="enable_ocr">
-          <el-switch v-model="form.enable_ocr" />
+        <el-form-item label="解析方法" prop="parse_method">
+          <el-select v-model="form.parse_method" placeholder="请选择解析方法" style="width: 100%">
+            <el-option label="自动识别 (推荐)" value="auto" />
+            <el-option label="OCR识别 (扫描件)" value="ocr" />
+            <el-option label="文本提取 (纯文本)" value="txt" />
+          </el-select>
         </el-form-item>
-        <el-form-item label="启用表格识别" prop="enable_table">
-          <el-switch v-model="form.enable_table" />
+        <el-form-item label="启用图片处理" prop="enable_image_processing">
+          <el-switch v-model="form.enable_image_processing" />
         </el-form-item>
-        <el-form-item label="启用公式识别" prop="enable_equation">
-          <el-switch v-model="form.enable_equation" />
+        <el-form-item label="启用表格识别" prop="enable_table_processing">
+          <el-switch v-model="form.enable_table_processing" />
+        </el-form-item>
+        <el-form-item label="启用公式识别" prop="enable_equation_processing">
+          <el-switch v-model="form.enable_equation_processing" />
+        </el-form-item>
+        <el-form-item label="LLM模型" prop="llm_model_id">
+          <el-select v-model="form.llm_model_id" placeholder="请选择LLM模型" clearable style="width: 100%">
+            <el-option
+              v-for="model in llmModels"
+              :key="model.id"
+              :label="model.name"
+              :value="model.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="VLM模型" prop="vlm_model_id">
+          <el-select v-model="form.vlm_model_id" placeholder="请选择VLM模型" clearable style="width: 100%">
+            <el-option
+              v-for="model in vlmModels"
+              :key="model.id"
+              :label="model.name"
+              :value="model.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Embedding模型" prop="embedding_model_id">
+          <el-select v-model="form.embedding_model_id" placeholder="请选择Embedding模型" clearable style="width: 100%">
+            <el-option
+              v-for="model in embeddingModels"
+              :key="model.id"
+              :label="model.name"
+              :value="model.id"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -125,6 +163,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox, FormInstance } from 'element-plus'
 import { knowledgeBaseApi } from '@/api/knowledge-base'
+import { modelsApi } from '@/api/models'
 
 const router = useRouter()
 
@@ -134,15 +173,22 @@ const loading = ref(false)
 const formRef = ref<FormInstance>()
 
 const knowledgeBases = ref<any[]>([])
+const llmModels = ref<any[]>([])
+const vlmModels = ref<any[]>([])
+const embeddingModels = ref<any[]>([])
 
 const form = ref({
   id: undefined as number | undefined,
   name: '',
   description: '',
-  parser_type: 'llama_parse',
-  enable_ocr: false,
-  enable_table: false,
-  enable_equation: false,
+  parser_type: 'mineru',
+  parse_method: 'auto',
+  enable_image_processing: true,
+  enable_table_processing: true,
+  enable_equation_processing: true,
+  llm_model_id: undefined as number | undefined,
+  vlm_model_id: undefined as number | undefined,
+  embedding_model_id: undefined as number | undefined,
 })
 
 const rules = {
@@ -152,11 +198,36 @@ const rules = {
 
 const getParserName = (type: string) => {
   const names: Record<string, string> = {
-    llama_parse: 'LlamaParse',
-    unstructured_io: 'UnstructuredIO',
-    marker: 'Marker',
+    mineru: 'MinerU',
+    docling: 'Docling',
   }
   return names[type] || type
+}
+
+const loadModels = async () => {
+  try {
+    const models = await modelsApi.list()
+    llmModels.value = models.filter((m: any) => m.model_type === 'llm' && m.is_active)
+    vlmModels.value = models.filter((m: any) => m.model_type === 'vlm' && m.is_active)
+    embeddingModels.value = models.filter((m: any) => m.model_type === 'embedding' && m.is_active)
+
+    // Set default models
+    const defaultLLM = llmModels.value.find((m: any) => m.is_default)
+    const defaultVLM = vlmModels.value.find((m: any) => m.is_default)
+    const defaultEmbedding = embeddingModels.value.find((m: any) => m.is_default)
+
+    if (defaultLLM && !form.value.llm_model_id) {
+      form.value.llm_model_id = defaultLLM.id
+    }
+    if (defaultVLM && !form.value.vlm_model_id) {
+      form.value.vlm_model_id = defaultVLM.id
+    }
+    if (defaultEmbedding && !form.value.embedding_model_id) {
+      form.value.embedding_model_id = defaultEmbedding.id
+    }
+  } catch (error) {
+    console.error('Failed to load models:', error)
+  }
 }
 
 const loadKnowledgeBases = async () => {
@@ -167,16 +238,26 @@ const loadKnowledgeBases = async () => {
   }
 }
 
-const handleCreate = () => {
+const handleCreate = async () => {
   dialogTitle.value = '创建知识库'
+
+  // Load default model selections
+  const defaultLLM = llmModels.value.find((m: any) => m.is_default)
+  const defaultVLM = vlmModels.value.find((m: any) => m.is_default)
+  const defaultEmbedding = embeddingModels.value.find((m: any) => m.is_default)
+
   form.value = {
     id: undefined,
     name: '',
     description: '',
-    parser_type: 'llama_parse',
-    enable_ocr: false,
-    enable_table: false,
-    enable_equation: false,
+    parser_type: 'mineru',
+    parse_method: 'auto',
+    enable_image_processing: true,
+    enable_table_processing: true,
+    enable_equation_processing: true,
+    llm_model_id: defaultLLM?.id,
+    vlm_model_id: defaultVLM?.id,
+    embedding_model_id: defaultEmbedding?.id,
   }
   dialogVisible.value = true
 }
@@ -198,10 +279,14 @@ const handleCommand = async (command: string, kb: any) => {
         id: kb.id,
         name: kb.name,
         description: kb.description,
-        parser_type: kb.parser_config?.type || 'llama_parse',
-        enable_ocr: kb.parser_config?.enable_ocr || false,
-        enable_table: kb.parser_config?.enable_table || false,
-        enable_equation: kb.parser_config?.enable_equation || false,
+        parser_type: kb.parser_type || 'mineru',
+        parse_method: kb.parse_method || 'auto',
+        enable_image_processing: kb.enable_image_processing ?? true,
+        enable_table_processing: kb.enable_table_processing ?? true,
+        enable_equation_processing: kb.enable_equation_processing ?? true,
+        llm_model_id: kb.llm_model_id,
+        vlm_model_id: kb.vlm_model_id,
+        embedding_model_id: kb.embedding_model_id,
       }
       dialogVisible.value = true
       break
@@ -236,12 +321,14 @@ const handleSubmit = async () => {
         const data = {
           name: form.value.name,
           description: form.value.description,
-          parser_config: {
-            type: form.value.parser_type,
-            enable_ocr: form.value.enable_ocr,
-            enable_table: form.value.enable_table,
-            enable_equation: form.value.enable_equation,
-          },
+          parser_type: form.value.parser_type,
+          parse_method: form.value.parse_method,
+          enable_image_processing: form.value.enable_image_processing,
+          enable_table_processing: form.value.enable_table_processing,
+          enable_equation_processing: form.value.enable_equation_processing,
+          llm_model_id: form.value.llm_model_id,
+          vlm_model_id: form.value.vlm_model_id,
+          embedding_model_id: form.value.embedding_model_id,
         }
         if (form.value.id) {
           await knowledgeBaseApi.update(form.value.id, data)
@@ -265,8 +352,9 @@ const handleDialogClose = () => {
   formRef.value?.resetFields()
 }
 
-onMounted(() => {
-  loadKnowledgeBases()
+onMounted(async () => {
+  await loadModels()
+  await loadKnowledgeBases()
 })
 </script>
 

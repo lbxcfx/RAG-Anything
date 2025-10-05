@@ -30,6 +30,7 @@ class ChatSessionInDB(ChatSessionBase):
 class ChatSessionResponse(ChatSessionInDB):
     """Chat session response schema"""
     message_count: Optional[int] = 0
+    messages: Optional[List[ChatMessageResponse]] = None
 
 
 class ChatMessageBase(BaseModel):

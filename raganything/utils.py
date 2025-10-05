@@ -160,9 +160,27 @@ async def insert_text_content(
         ids: single string of the document ID or list of unique document IDs, if not provided, MD5 hash IDs will be generated
         file_paths: single string of the file path or list of file paths, used for citation
     """
-    logger.info("Starting text content insertion into LightRAG...")
+    logger.info("========== Starting text content insertion into LightRAG ==========")
+    logger.info(f"  → Document ID: {ids}")
+    logger.info(f"  → File path: {file_paths}")
+    logger.info(f"  → Text content length: {len(input) if isinstance(input, str) else sum(len(s) for s in input)} characters")
+
+    # Check document status before insertion
+    try:
+        if ids:
+            doc_status = await lightrag.doc_status.get_by_id(ids)
+            if doc_status:
+                logger.info(f"  → Document status in LightRAG: {doc_status.get('status', 'unknown')}")
+                metadata = doc_status.get("metadata", {})
+                if metadata.get("multimodal_processed"):
+                    logger.info(f"  ⚠ Document already processed (multimodal_processed=True)")
+            else:
+                logger.info(f"  → Document is NEW - not in LightRAG doc_status yet")
+    except Exception as e:
+        logger.debug(f"  → Could not check document status: {e}")
 
     # Use LightRAG's insert method with all parameters
+    logger.info(f"  → Calling LightRAG.ainsert() - this will trigger LLM-based entity extraction if needed...")
     await lightrag.ainsert(
         input=input,
         file_paths=file_paths,
@@ -171,7 +189,7 @@ async def insert_text_content(
         ids=ids,
     )
 
-    logger.info("Text content insertion complete")
+    logger.info("========== Text content insertion complete ==========")
 
 
 async def insert_text_content_with_multimodal_content(

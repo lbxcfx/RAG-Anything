@@ -1,0 +1,561 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d11" for="edge" attr.name="created_at" attr.type="long" />
+  <key id="d10" for="edge" attr.name="file_path" attr.type="string" />
+  <key id="d9" for="edge" attr.name="source_id" attr.type="string" />
+  <key id="d8" for="edge" attr.name="keywords" attr.type="string" />
+  <key id="d7" for="edge" attr.name="description" attr.type="string" />
+  <key id="d6" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d5" for="node" attr.name="created_at" attr.type="long" />
+  <key id="d4" for="node" attr.name="file_path" attr.type="string" />
+  <key id="d3" for="node" attr.name="source_id" attr.type="string" />
+  <key id="d2" for="node" attr.name="description" attr.type="string" />
+  <key id="d1" for="node" attr.name="entity_type" attr.type="string" />
+  <key id="d0" for="node" attr.name="entity_id" attr.type="string" />
+  <graph edgedefault="undirected">
+    <node id="社会支持评定量表">
+      <data key="d0">社会支持评定量表</data>
+      <data key="d1">content</data>
+      <data key="d2">社会支持评定量表是一种用于评估社会支持的工具。&lt;SEP&gt;社会支持评定量表是一种用于评估患者社会支持情况的工具。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd&lt;SEP&gt;chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="NRS2002营养风险筛查表">
+      <data key="d0">NRS2002营养风险筛查表</data>
+      <data key="d1">content</data>
+      <data key="d2">NRS2002营养风险筛查表是一种用于营养评估的工具。&lt;SEP&gt;NRS2002营养风险筛查表是一种用于评估患者营养状况的工具。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd&lt;SEP&gt;chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="康复期照护计划">
+      <data key="d0">康复期照护计划</data>
+      <data key="d1">concept</data>
+      <data key="d2">康复期照护计划是针对患者在康复期间的一系列照护措施和指导。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="新生皮肤护理">
+      <data key="d0">新生皮肤护理</data>
+      <data key="d1">method</data>
+      <data key="d2">新生皮肤护理是指对新生皮肤进行保护和护理的方法，包括完整度保护和清洁保湿。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="压力衣">
+      <data key="d0">压力衣</data>
+      <data key="d1">artifact</data>
+      <data key="d2">压力衣是一种用于帮助患者恢复的穿戴设备。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="矫形器">
+      <data key="d0">矫形器</data>
+      <data key="d1">artifact</data>
+      <data key="d2">矫形器是一种用于矫正身体部位或辅助功能恢复的设备。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="瘙痒管理">
+      <data key="d0">瘙痒管理</data>
+      <data key="d1">method</data>
+      <data key="d2">瘙痒管理是指对患者瘙痒症状进行管理和缓解的方法。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="疼痛管理">
+      <data key="d0">疼痛管理</data>
+      <data key="d1">method</data>
+      <data key="d2">疼痛管理是指对患者疼痛症状进行管理和缓解的方法。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674233</data>
+    </node>
+    <node id="功能锻炼任务">
+      <data key="d0">功能锻炼任务</data>
+      <data key="d1">method</data>
+      <data key="d2">功能锻炼任务是指为患者设计的针对性功能锻炼活动。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="饮食指导">
+      <data key="d0">饮食指导</data>
+      <data key="d1">method</data>
+      <data key="d2">饮食指导是指为患者提供的关于饮食方面的建议和指导。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="浸浴疗法">
+      <data key="d0">浸浴疗法</data>
+      <data key="d1">method</data>
+      <data key="d2">浸浴疗法是一种通过浸泡来清洁和治疗皮肤的方法。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="平衡膳食">
+      <data key="d0">平衡膳食</data>
+      <data key="d1">method</data>
+      <data key="d2">平衡膳食是指为患者提供的饮食建议，注重绿色健康，忌烟酒及辛辣刺激食物。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="糖尿病">
+      <data key="d0">糖尿病</data>
+      <data key="d1">concept</data>
+      <data key="d2">糖尿病是一种基础疾病，患者的饮食计划需根据该疾病来制定。</data>
+      <data key="d3">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="烧伤康复评估维度">
+      <data key="d0">烧伤康复评估维度</data>
+      <data key="d1">category</data>
+      <data key="d2">烧伤康复评估维度是重度及特重度烧伤患者康复期照护干预方案中的一个评估部分，包含多个条目。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="评估工具">
+      <data key="d0">评估工具</data>
+      <data key="d1">method</data>
+      <data key="d2">评估工具是用于烧伤康复评估的具体工具，如温哥华瘢痕量表、关节角度尺等。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="评估时间点">
+      <data key="d0">评估时间点</data>
+      <data key="d1">category</data>
+      <data key="d2">评估时间点是指在烧伤康复过程中进行评估的具体时间，包括首次治疗前1天和每4周一次的评估。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="评估频率">
+      <data key="d0">评估频率</data>
+      <data key="d1">category</data>
+      <data key="d2">评估频率是指在烧伤康复过程中进行评估的时间间隔，例如每4周评估一次。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="康复期照护实施维度">
+      <data key="d0">康复期照护实施维度</data>
+      <data key="d1">category</data>
+      <data key="d2">康复期照护实施维度是重度及特重度烧伤患者康复期照护干预方案中的一个实施部分，包含多个条目。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="睡眠障碍管理">
+      <data key="d0">睡眠障碍管理</data>
+      <data key="d1">method</data>
+      <data key="d2">睡眠障碍管理是康复期照护实施维度下的一个条目，旨在帮助患者管理睡眠问题。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="新生皮肤护理指导">
+      <data key="d0">新生皮肤护理指导</data>
+      <data key="d1">method</data>
+      <data key="d2">新生皮肤护理指导是康复期照护实施维度下的一个条目，包括保护新生皮肤完整度、防色素沉着、清洁保湿等方面的指导。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="压力治疗指导">
+      <data key="d0">压力治疗指导</data>
+      <data key="d1">method</data>
+      <data key="d2">压力治疗指导是康复期照护实施维度下的一个条目，包括压力衣穿戴步骤等内容。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="随访评价">
+      <data key="d0">随访评价</data>
+      <data key="d1">category</data>
+      <data key="d2">随访评价是康复期照护评价维度下的一个条目，用于评估患者的长期康复效果。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="肯德尔和谐系数">
+      <data key="d0">肯德尔和谐系数</data>
+      <data key="d1">concept</data>
+      <data key="d2">肯德尔和谐系数是一种统计方法，用于衡量专家函询结果的一致性。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="一级指标">
+      <data key="d0">一级指标</data>
+      <data key="d1">category</data>
+      <data key="d2">一级指标是专家函询结果中的一项分类，反映了烧伤康复评估的重要性和一致性。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674234</data>
+    </node>
+    <node id="二级指标">
+      <data key="d0">二级指标</data>
+      <data key="d1">category</data>
+      <data key="d2">二级指标是专家函询结果中的一项分类，反映了烧伤康复评估的重要性和一致性。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="三级指标">
+      <data key="d0">三级指标</data>
+      <data key="d1">category</data>
+      <data key="d2">三级指标是专家函询结果中的一项分类，反映了烧伤康复评估的重要性和一致性。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="重要性评分">
+      <data key="d0">重要性评分</data>
+      <data key="d1">data</data>
+      <data key="d2">重要性评分是重度及特重度烧伤患者康复期照护干预方案中各项指标的重要性程度，用均值和标准差表示。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="变异系数">
+      <data key="d0">变异系数</data>
+      <data key="d1">data</data>
+      <data key="d2">变异系数是反映数据离散程度的统计量，用于衡量重度及特重度烧伤患者康复期照护干预方案中各项指标的一致性。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="温哥华瘢痕量表">
+      <data key="d0">温哥华瘢痕量表</data>
+      <data key="d1">method</data>
+      <data key="d2">温哥华瘢痕量表是一种用于评估烧伤后瘢痕情况的工具。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="关节角度尺">
+      <data key="d0">关节角度尺</data>
+      <data key="d1">method</data>
+      <data key="d2">关节角度尺是一种用于评估关节活动度的工具。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="手法肌力测定">
+      <data key="d0">手法肌力测定</data>
+      <data key="d1">method</data>
+      <data key="d2">手法肌力测定是一种用于评估肌肉力量的方法。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="视觉模拟评分">
+      <data key="d0">视觉模拟评分</data>
+      <data key="d1">method</data>
+      <data key="d2">视觉模拟评分是一种用于评估疼痛和瘙痒程度的方法。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="照片对比和创口尺测量">
+      <data key="d0">照片对比和创口尺测量</data>
+      <data key="d1">method</data>
+      <data key="d2">照片对比和创口尺测量是一种用于评估残余创面的方法。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="生活自理能力量表">
+      <data key="d0">生活自理能力量表</data>
+      <data key="d1">method</data>
+      <data key="d2">生活自理能力量表是一种用于评估患者自理能力的工具。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="医院焦虑抑郁量表">
+      <data key="d0">医院焦虑抑郁量表</data>
+      <data key="d1">method</data>
+      <data key="d2">医院焦虑抑郁量表是一种用于评估精神心理状态的工具。</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674235</data>
+    </node>
+    <node id="压力衣穿戴步骤">
+      <data key="d0">压力衣穿戴步骤</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d2">压力治疗指导中增加了压力衣穿戴步骤这一条目，以指导患者正确使用压力衣。</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674239</data>
+    </node>
+    <node id="康复期照护评价维度">
+      <data key="d0">康复期照护评价维度</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d2">康复期照护评价维度中增加了随访评价这一条目，以评估患者的长期康复效果。</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674239</data>
+    </node>
+    <node id="新生皮肤完整度保护指导">
+      <data key="d0">新生皮肤完整度保护指导</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d2">新生皮肤护理指导中包含了新生皮肤完整度保护指导这一条目，以保护新生皮肤的完整性。</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674239</data>
+    </node>
+    <node id="新生皮肤防色素沉着指导">
+      <data key="d0">新生皮肤防色素沉着指导</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d2">新生皮肤护理指导中包含了新生皮肤防色素沉着指导这一条目，以防止新生皮肤出现色素沉着。</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674240</data>
+    </node>
+    <node id="新生皮肤清洁保湿指导">
+      <data key="d0">新生皮肤清洁保湿指导</data>
+      <data key="d3">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d2">新生皮肤护理指导中包含了新生皮肤清洁保湿指导这一条目，以保持新生皮肤的清洁和湿润。</data>
+      <data key="d1">UNKNOWN</data>
+      <data key="d4">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d5">1759674240</data>
+    </node>
+    <edge source="社会支持评定量表" target="康复期照护计划">
+      <data key="d6">1.0</data>
+      <data key="d7">社会支持评定量表是康复期照护计划中的一部分，用于评估患者的社会支持情况。</data>
+      <data key="d8">照护计划,评估工具</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674236</data>
+    </edge>
+    <edge source="NRS2002营养风险筛查表" target="康复期照护计划">
+      <data key="d6">1.0</data>
+      <data key="d7">NRS2002营养风险筛查表是康复期照护计划中的一部分，用于营养评估。</data>
+      <data key="d8">照护计划,评估工具</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674236</data>
+    </edge>
+    <edge source="康复期照护计划" target="新生皮肤护理">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划包括新生皮肤护理，以保护和护理患者的新生皮肤。</data>
+      <data key="d8">照护措施,皮肤护理</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674237</data>
+    </edge>
+    <edge source="康复期照护计划" target="压力衣">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划中包括指导患者及照顾者掌握压力衣的使用注意事项。</data>
+      <data key="d8">照护措施,辅助设备</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674237</data>
+    </edge>
+    <edge source="康复期照护计划" target="矫形器">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划中包括指导患者及照顾者掌握矫形器的使用注意事项。</data>
+      <data key="d8">照护措施,辅助设备</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674238</data>
+    </edge>
+    <edge source="康复期照护计划" target="瘙痒管理">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划中包括指导患者了解和管理瘙痒症状。</data>
+      <data key="d8">照护措施,症状管理</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674238</data>
+    </edge>
+    <edge source="康复期照护计划" target="疼痛管理">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划中包括指导患者了解和管理疼痛症状。</data>
+      <data key="d8">照护措施,症状管理</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="康复期照护计划" target="功能锻炼任务">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划中包括指导患者完成针对性的功能锻炼任务。</data>
+      <data key="d8">功能锻炼,照护措施</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="康复期照护计划" target="饮食指导">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划中包括为患者提供饮食方面的指导。</data>
+      <data key="d8">照护措施,饮食建议</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="康复期照护计划" target="浸浴疗法">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护计划中包括指导患者进行浸浴疗法以清洁和治疗皮肤。</data>
+      <data key="d8">照护措施,皮肤治疗</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674240</data>
+    </edge>
+    <edge source="饮食指导" target="平衡膳食">
+      <data key="d6">1.0</data>
+      <data key="d7">饮食指导中包括平衡膳食的建议，注重绿色健康，忌烟酒及辛辣刺激食物。</data>
+      <data key="d8">健康饮食,饮食建议</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674237</data>
+    </edge>
+    <edge source="饮食指导" target="糖尿病">
+      <data key="d6">1.0</data>
+      <data key="d7">饮食指导中提到，如果患者有基础疾病如糖尿病，饮食计划需根据基础疾病来制定。</data>
+      <data key="d8">基础疾病,饮食建议</data>
+      <data key="d9">chunk-67c478ea3783dd75fd1eb572fe917dcd</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674238</data>
+    </edge>
+    <edge source="烧伤康复评估维度" target="评估工具">
+      <data key="d6">1.0</data>
+      <data key="d7">烧伤康复评估维度中增加了评估工具这一条目，以更全面地评估患者的康复情况。</data>
+      <data key="d8">包含,评估方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674238</data>
+    </edge>
+    <edge source="烧伤康复评估维度" target="评估时间点">
+      <data key="d6">1.0</data>
+      <data key="d7">烧伤康复评估维度中包含了评估时间点这一条目，以确定具体的评估时间。</data>
+      <data key="d8">包含,评估方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="评估时间点" target="评估频率">
+      <data key="d6">1.0</data>
+      <data key="d7">评估时间点中增加了评估频率这一条目，以确定评估的时间间隔。</data>
+      <data key="d8">包含,评估方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674238</data>
+    </edge>
+    <edge source="康复期照护实施维度" target="睡眠障碍管理">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护实施维度中增加了睡眠障碍管理这一条目，以帮助患者管理睡眠问题。</data>
+      <data key="d8">包含,照护方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674238</data>
+    </edge>
+    <edge source="康复期照护实施维度" target="新生皮肤护理指导">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护实施维度中包含了新生皮肤护理指导这一条目，以提供对新生皮肤的全面护理。</data>
+      <data key="d8">包含,照护方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="新生皮肤护理指导" target="新生皮肤完整度保护指导">
+      <data key="d6">1.0</data>
+      <data key="d7">新生皮肤护理指导中包含了新生皮肤完整度保护指导这一条目，以保护新生皮肤的完整性。</data>
+      <data key="d8">包含,照护方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="新生皮肤护理指导" target="新生皮肤防色素沉着指导">
+      <data key="d6">1.0</data>
+      <data key="d7">新生皮肤护理指导中包含了新生皮肤防色素沉着指导这一条目，以防止新生皮肤出现色素沉着。</data>
+      <data key="d8">包含,照护方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674240</data>
+    </edge>
+    <edge source="新生皮肤护理指导" target="新生皮肤清洁保湿指导">
+      <data key="d6">1.0</data>
+      <data key="d7">新生皮肤护理指导中包含了新生皮肤清洁保湿指导这一条目，以保持新生皮肤的清洁和湿润。</data>
+      <data key="d8">包含,照护方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674240</data>
+    </edge>
+    <edge source="压力治疗指导" target="压力衣穿戴步骤">
+      <data key="d6">1.0</data>
+      <data key="d7">压力治疗指导中增加了压力衣穿戴步骤这一条目，以指导患者正确使用压力衣。</data>
+      <data key="d8">包含,治疗方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="随访评价" target="康复期照护评价维度">
+      <data key="d6">1.0</data>
+      <data key="d7">康复期照护评价维度中增加了随访评价这一条目，以评估患者的长期康复效果。</data>
+      <data key="d8">包含,评价方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="肯德尔和谐系数" target="一级指标">
+      <data key="d6">1.0</data>
+      <data key="d7">肯德尔和谐系数用于衡量一级指标的一致性。</data>
+      <data key="d8">一致性测量,统计方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="肯德尔和谐系数" target="二级指标">
+      <data key="d6">1.0</data>
+      <data key="d7">肯德尔和谐系数用于衡量二级指标的一致性。</data>
+      <data key="d8">一致性测量,统计方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="肯德尔和谐系数" target="三级指标">
+      <data key="d6">1.0</data>
+      <data key="d7">肯德尔和谐系数用于衡量三级指标的一致性。</data>
+      <data key="d8">一致性测量,统计方法</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674240</data>
+    </edge>
+    <edge source="一级指标" target="重要性评分">
+      <data key="d6">1.0</data>
+      <data key="d7">一级指标的重要性评分反映了其在烧伤康复评估中的重要性。</data>
+      <data key="d8">数据分析,评价</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674239</data>
+    </edge>
+    <edge source="二级指标" target="重要性评分">
+      <data key="d6">1.0</data>
+      <data key="d7">二级指标的重要性评分反映了其在烧伤康复评估中的重要性。</data>
+      <data key="d8">数据分析,评价</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674240</data>
+    </edge>
+    <edge source="三级指标" target="重要性评分">
+      <data key="d6">1.0</data>
+      <data key="d7">三级指标的重要性评分反映了其在烧伤康复评估中的重要性。</data>
+      <data key="d8">数据分析,评价</data>
+      <data key="d9">chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c</data>
+      <data key="d10">重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf</data>
+      <data key="d11">1759674240</data>
+    </edge>
+  </graph>
+</graphml>

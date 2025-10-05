@@ -1,0 +1,18 @@
+{
+  "doc-bdbca4c0736bf07829b0de16c9388ff3": {
+    "status": "failed",
+    "error_msg": "Error code: 401 - {'error': {'message': 'Incorrect API key provided. ', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}, 'request_id': '66fc95a6-e2df-4868-a32d-bb6ed1159f3f'}",
+    "content_summary": "<table><tr><td></td><td></td><td>续表2</td></tr><tr><td>指标</td><td>重要性评分</td><td>变异系数</td></tr><tr><td>3.2.3新生皮肤防色素沉着指导：外出时应做好防晒措施,穿长袖衣裤,戴防晒帽,避免使用化学防晒剂</td><td>4.93±0.26</td><td>0.05</td></tr><tr><td>3.3压力治疗指导 3.3.1皮肤保护：(1)量身定制压力衣并试穿调整,选择适中的压力梯度;(2)有创面...",
+    "content_length": 3250,
+    "created_at": "2025-10-05T09:59:50.138595+00:00",
+    "updated_at": "2025-10-05T17:59:51+00:00",
+    "file_path": "重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_5.pdf",
+    "track_id": "insert_20251005_175950_b6d2a7c9",
+    "metadata": {
+      "processing_start_time": 1759658390,
+      "processing_end_time": 1759658391,
+      "multimodal_processed": true
+    },
+    "chunks_list": []
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "doc-0be0af1f93ce60a34f3550bb19204863": {
+    "status": "processed",
+    "chunks_count": 2,
+    "chunks_list": [
+      "chunk-89f5ca3c9ef9eaa4eecd29afa6071c4c",
+      "chunk-67c478ea3783dd75fd1eb572fe917dcd"
+    ],
+    "content_summary": "订方案内容。(1)在烧伤康复评估维度下增加条目“评估工具”;(2)在\"评估时间点”中增加“评估频率”;(3)在康复期照护实施维度下增加条目“睡眠障碍管理”;(4)将\"新生皮肤护理指导”下的条目合并为“新生皮肤完整度保护指导”“新生皮肤防色素沉着指导”“新生皮肤清洁保湿指导”;(5)在“压力治疗指导”下增加条目“压力衣穿戴步骤”；(6)在康复期照护评价维度下增加条目“随访评价”。最终构建的重度及特重度烧伤患者康复期照护干预方案见表2。\n\n表1专家函询结果的肯德尔和谐系数  \n\n<table><tr...",
+    "content_length": 2931,
+    "created_at": "2025-10-05T14:23:00.227541+00:00",
+    "updated_at": "2025-10-05T22:24:01+00:00",
+    "file_path": "重度及特重度烧伤患者康复期照护干预方案的多维度构建 (1)_4.pdf",
+    "track_id": "insert_20251005_222300_8eb63977",
+    "metadata": {
+      "processing_start_time": 1759674180,
+      "processing_end_time": 1759674241,
+      "multimodal_processed": true
+    }
+  }
+}

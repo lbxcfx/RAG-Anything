@@ -1,5 +1,6 @@
 """Query and chat endpoints"""
 import time
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status, WebSocket, WebSocketDisconnect
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -74,7 +75,7 @@ async def get_rag_service(kb_id: int, user_id: int, db: AsyncSession) -> RAGServ
             "model_name": "text-embedding-3-large",
             "api_key": None,
             "api_base_url": None,
-            "parameters": {"embedding_dim": 3072, "max_token_size": 8192},
+            "parameters": {"embedding_dim": 1024, "max_token_size": 8192},
         }
 
     # Create RAG service
@@ -174,6 +175,76 @@ async def create_chat_session(
     response = ChatSessionResponse.from_orm(session)
     response.message_count = 0
 
+    return response
+
+
+@router.get("/sessions", response_model=List[ChatSessionResponse])
+async def list_chat_sessions(
+    kb_id: int = None,
+    current_user: User = Depends(get_current_active_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """List user's chat sessions"""
+    query = select(ChatSession).where(ChatSession.user_id == current_user.id)
+    
+    if kb_id:
+        query = query.where(ChatSession.knowledge_base_id == kb_id)
+    
+    query = query.order_by(ChatSession.created_at.desc())
+    
+    result = await db.execute(query)
+    sessions = result.scalars().all()
+    
+    # Convert to response format with message count
+    response_sessions = []
+    for session in sessions:
+        response = ChatSessionResponse.from_orm(session)
+        # Count messages for this session
+        msg_count_result = await db.execute(
+            select(ChatMessage).where(ChatMessage.session_id == session.id)
+        )
+        response.message_count = len(msg_count_result.scalars().all())
+        response_sessions.append(response)
+    
+    return response_sessions
+
+
+@router.get("/sessions/{session_id}", response_model=ChatSessionResponse)
+async def get_chat_session(
+    session_id: int,
+    current_user: User = Depends(get_current_active_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Get specific chat session with messages"""
+    # Get session
+    session_result = await db.execute(
+        select(ChatSession).where(
+            ChatSession.id == session_id,
+            ChatSession.user_id == current_user.id,
+        )
+    )
+    session = session_result.scalar_one_or_none()
+    
+    if not session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Chat session not found",
+        )
+    
+    # Get messages for this session
+    messages_result = await db.execute(
+        select(ChatMessage).where(ChatMessage.session_id == session_id)
+        .order_by(ChatMessage.created_at.asc())
+    )
+    messages = messages_result.scalars().all()
+    
+    # Convert to response format
+    response = ChatSessionResponse.from_orm(session)
+    response.message_count = len(messages)
+    
+    # Add messages to response
+    response.messages = [ChatMessageResponse.from_orm(msg) for msg in messages]
+    
     return response
 
 

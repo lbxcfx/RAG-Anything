@@ -59,6 +59,9 @@ async def login(
     db: AsyncSession = Depends(get_db),
 ):
     """User login"""
+    print(f"Login attempt for username: {form_data.username}")
+    print(f"Password length: {len(form_data.password)}")
+    
     # Find user by username or email
     result = await db.execute(
         select(User).where(
@@ -66,8 +69,11 @@ async def login(
         )
     )
     user = result.scalar_one_or_none()
-
+    
+    print(f"User found: {user.username if user else 'None'}")
+    
     if not user or not verify_password(form_data.password, user.hashed_password):
+        print("Login failed: incorrect username or password")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -75,11 +81,13 @@ async def login(
         )
 
     if not user.is_active:
+        print("Login failed: inactive user")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Inactive user",
         )
 
+    print(f"Login successful for user: {user.username}")
     # Create access token
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(

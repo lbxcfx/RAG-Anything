@@ -58,8 +58,10 @@ def decode_access_token(token: str) -> dict:
             settings.SECRET_KEY,
             algorithms=[settings.ALGORITHM]
         )
+        print(f"JWT token decoded successfully for user: {payload.get('sub')}")
         return payload
-    except JWTError:
+    except JWTError as e:
+        print(f"JWT decode failed: {e}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
@@ -72,13 +74,16 @@ async def get_current_user(
 ) -> dict:
     """Get current authenticated user"""
     token = credentials.credentials
+    print(f"Authenticating user with token: {token[:20]}...")
     payload = decode_access_token(token)
 
     user_id: str = payload.get("sub")
     if user_id is None:
+        print("No user ID in token payload")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
         )
 
+    print(f"User authenticated: {user_id}")
     return payload
